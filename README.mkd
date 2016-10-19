@@ -1,0 +1,3 @@
+Requires these packages: tikz, pgfplots
+
+Compile with `xelatex sample.tex`.

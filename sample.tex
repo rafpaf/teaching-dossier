@@ -1,0 +1,162 @@
+\documentclass[12pt,no-math,openany,oldfontcommands]{memoir}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+
+\definecolor{lightyellow}{rgb}{1.0, 1.0, 0.88}
+
+\definecolor{RYB1}{HTML}{1395BA}
+\definecolor{RYB2}{HTML}{5CA793}
+\definecolor{RYB3}{HTML}{A2B86C}
+\definecolor{RYB4}{HTML}{EBC844}
+\definecolor{RYB5}{HTML}{ECAA38}
+\definecolor{RYB6}{HTML}{EF8B2C}
+\definecolor{RYB7}{HTML}{F16C20}
+\definecolor{RYB8}{HTML}{D94E1F}
+
+\pgfplotsset{width=.9\textwidth,compat=1.13}
+
+\pgfplotscreateplotcyclelist{somecolors}{
+    {draw=none,fill=RYB5},
+    {draw=none,fill=RYB6},
+    {draw=none,fill=RYB7},
+    {draw=none,fill=RYB8},
+    {draw=none,fill=RYB1},
+    {draw=none,fill=RYB2},
+    {draw=none,fill=RYB3},
+    {draw=none,fill=RYB4},
+}
+
+\pgfplotscreateplotcyclelist{somecolors2}{
+    {draw=none,fill=RYB1},
+    {draw=none,fill=RYB2},
+    {draw=none,fill=RYB3},
+    {draw=none,fill=RYB4},
+    {draw=none,fill=RYB5},
+    {draw=none,fill=RYB6},
+    {draw=none,fill=RYB7},
+    {draw=none,fill=RYB8},
+}
+
+%%%%%%%%
+% FONT %
+%%%%%%%%
+
+\usepackage{amssymb,amsmath}
+\usepackage{mathspec}
+%,xltxtra,xunicode}
+\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+\setallmainfonts[BoldFont=Lato Black,BoldItalicFont=Lato Bold Italic]{Lato}
+\setmonofont{Lato}
+%\setallmainfonts[Numbers=Lining,Ligatures=TeX,BoldFont=JoannaMTPro-Bold,ItalicFont=JoannaMTPro-Italic,BoldItalicFont=JoannaMTPro-BoldItalic,SmallCapsFont=JoannaMTPro-Regular]{JoannaMT}
+
+\usepackage{marvosym}
+%\usepackage{bbding}
+\usepackage[normalem]{ulem} % for strikethrough
+
+\linespread{1.0}
+\usepackage[left=1.2in,top=1in,right=1.2in,bottom=1in]{geometry}
+        
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0in}
+
+\usepackage{microtype}
+
+\usepackage{ifxetex}
+\ifxetex
+      \usepackage{fontspec,xltxtra,xunicode}
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+    \else
+  \usepackage[mathletters]{ucs}
+  \usepackage[utf8x]{inputenc}
+\fi
+
+\title{Teaching dossier}
+\author{Your name}
+
+\begin{document}
+
+\raggedbottom % allow extra whitespace to accumulate at page bottom if necessary
+
+\pgfplotsset{
+    every axis/.append style={
+        width=2in,
+        height=7in
+    }
+}
+
+\pgfplotstableread[col sep=comma]{
+Name,Philosophy of Mind,Philosophy of Language,Plato,Schopenhauer
+Excited,3.1,3.3,2.3,2.7
+Concepts,3.1,3.9,2.0,2.5
+Questions,2.3,4.0,3.1,2.4
+Critically,3.5,3.2,3.1,2.0
+Understanding,1.8,2.6,2.4,2.5
+Accessible,3.7,3.1,2.0,1.4
+Stimulating,4,3.2,3,2.3
+Subject,3.1,3.1,3.0,3.7
+Course,2.2,2.3,2.4,2.6
+Instructor,2.7,2.8,2.5,4
+}\datatable
+
+\footnotesize
+
+\begin{flushleft}
+\begin{tikzpicture}
+    \begin{axis}[
+    xbar=-0pt, xmin=0, xmax=4,
+    bar width=-7pt,
+    xticklabels={,,},
+    ytick=data,
+    nodes near coords,
+    axis line style={opacity=0},
+    xmajorgrids,
+    major grid style={white, semithick},
+    axis on top,
+    major tick style={draw=none},
+    nodes near coords align={horizontal},
+    every node near coord/.append style={
+        anchor=west, font=\footnotesize,
+        /pgf/number format/.cd,
+            fixed,
+            fixed zerofill,
+            precision=1,
+        /tikz/.cd
+    },
+    legend style={at={(2.2,.95)}, anchor=north, text width=6cm, draw=none, row sep=0pt},
+    yticklabel style={align=right, text width=5.5cm},
+    cycle list name=somecolors2,
+    legend image code/.code={},
+    yticklabels={
+        {As a result of taking this course, I am more excited by this field of study},
+        {This course challenged me to consider new ideas, concepts, or ways of thinking},
+        {This course helped me to understand how this field asks and answers questions},
+        {This course helped me to improve my ability to analyze, solve problems and/or think critically},
+        {This course improved my understanding of factual knowledge, principles and/or theories in this area},
+        {The instructor was appropriately accessible outside of class time},
+        {The instructor effectively stimulated my interest},
+        {The instructor clearly communicated the subject matter},
+        {Overall quality of the course},
+        {Overall quality of the instructor}
+    },
+    ]
+
+\addplot table [x=Philosophy of Mind,y expr=\coordindex] {\datatable};
+\addlegendentry{\colorbox{RYB1}{\textbf{Philosophy of Mind, Spring 2015}}}
+\addplot table [x=Philosophy of Language,y expr=\coordindex] {\datatable};
+\addlegendentry{\colorbox{RYB2}{\textbf{Intro.~to Modern Philosophy, Fall 2015}}}
+\addplot table [x=Plato,y expr=\coordindex] {\datatable};
+\addlegendentry{\colorbox{RYB3}{\textbf{Plato and his Predecessors, Fall 2015}}}
+\addplot table [x=Schopenhauer,y expr=\coordindex] {\datatable};
+\addlegendentry{\colorbox{RYB4}{\textbf{Schopenhauer, Spring 2016}}}
+
+%\node[below] at (axis cs:0,0) {0};
+%\node[above] at (axis cs:1,0) {1};
+    \end{axis}
+\end{tikzpicture}
+\end{flushleft}
+
+\end{document}
+
+% vim: set filetype=tex:
